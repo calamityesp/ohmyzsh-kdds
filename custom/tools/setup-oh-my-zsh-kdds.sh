@@ -39,6 +39,15 @@ readonly CONFIRMED="$GREEN \e[D✔$RESET"
 readonly MISSING="$RED \e[D❌$RESET"
 readonly WARN="$YELLOW \e[DWARNING ⚠️$RESET"
 
+# directories
+Additonal_Directories=(
+    Repos
+    Gists
+    Scripts
+    Projects
+    Obsidian
+    Notes
+  )
 
 ##################################################
 #  SECTION: LOGGER
@@ -99,16 +108,42 @@ fi
 
 read -e -p "Dotfiles work profile? (N/y): " -i "n" install
 if [[ "y" == ${install,,} ]]; then
-  log $INFO "Dotfiles: changing to work branch"
-  git -C $ZSH/Dotfiles checkout -b work origin/work
+  log $WARN "Dotfiles: deleting local work branch and making new work branch from remote"
+  sleep 2
+  git -C $ZSH/Dotfiles checkout -b work origin/work || true
+  git -C $ZSH/Dotfiles submodule update --remote
 fi
+
+log $INFO "Creating Dotfiles symbolic link"
+ln -sf $ZSH/Dotfiles ~/.Dotfiles
 
 log $WARN "Run $ZSH/tools/nvim_admin.sh to setup admin and edit nvim"
 
 ##################################################r
+#  SECTION: RUN STOW
+##################################################
+for dir in $ZSH/Dotfiles/*; do
+  base=$(basename $dir)
+  stow -d $ZSH/Dotfiles -t ~ $base
+done
+
+##################################################r
+#  SECTION: Setting Up Additional Directories
+##################################################
+log $INFO "Setting up Additional Directories"
+for dir in ${Additonal_Directories[@]}; do
+  mkdir -p $ZSH/$dir
+  if [[ -d "$HOME/$dir" && ! -L "$HOME/$dir" ]]; then
+    log $WARN "Dir $dir exists! Moving to .old"
+    mv $HOME/$dir $HOME/$dir.old
+  fi
+  ln -sf $ZSH/$dir ~/$dir
+  log $INFO "Symbolic Link Created: $dir"
+done
+
+##################################################r
 #  SECTION: FINISH AND LAUNCH ZSH
 ##################################################
-log $INFO "Creating Symbolic Links..."
-stow -d "$ZSH/Dotfiles" -t ~ */
+log $INFO "Finished Setting up Oh-My-Kdds-Zsh"
 exec zsh
 
