@@ -107,7 +107,7 @@ if [[ ! -d $HOME/.oh-my-zsh-kdds ]]; then
   export ZSH="$HOME/.oh-my-zsh-kdds"
   export REPO="calamityesp/ohmyzsh-kdds"
   export REMOTE="https://github.com/calamityesp/ohmyzsh-kdds.git"
-  export BRANCH="main"
+  export BRANCH="develop"
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
