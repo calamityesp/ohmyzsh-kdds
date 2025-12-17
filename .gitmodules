@@ -1,4 +1,4 @@
 [submodule "Dotfiles"]
 	path = Dotfiles
 	url = https://github.com/calamityesp/Dotfiles.git
-  branch = main
+  branch = develop
