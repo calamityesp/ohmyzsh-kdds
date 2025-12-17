@@ -102,7 +102,9 @@ sleep 1
 ################################################
 log $INFO "Setting up Dotfiles Repository"
 git -C "$ZSH/" submodule update --init --recursive
+git -C "$ZSH/" submodule update --remote
 git -C "$ZSH/Dotfiles" submodule update --init --recursive
+git -C "$ZSH/Dotfiles" submodule update --remote
 
 read -e -p "Dotfiles work profile? (N/y): " -i "n" install
 if [[ "y" == ${install,,} ]]; then
