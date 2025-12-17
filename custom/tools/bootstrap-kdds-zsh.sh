@@ -27,6 +27,7 @@ IFS=$'\n\t'
 readonly RED="\e[31m"
 readonly RESET="\e[0m"
 readonly GREEN="\e[32m"
+ZSH="$HOME/.oh-my-zsh-kdds/"
 
 ####################################################
 # Variables

@@ -89,7 +89,7 @@ log $INFO "Adding Additional Directories"
 log $INFO "Removing Any Existing Symbolic Links..."
 
 # removing any existing symbolic links to ZSH
-source $ZSH/custom/tools/update_symlinks.sh
+# source $ZSH/custom/tools/update_symlinks.sh
 
 # removing legacy symbolic links (oh-my-kdds) ---- NOT COMPLETED
 log $INFO "Removing Any Legacy Symbolic Links..."
@@ -102,9 +102,7 @@ sleep 1
 ################################################
 log $INFO "Setting up Dotfiles Repository"
 git -C "$ZSH/" submodule update --init --recursive
-if [[ ! -d $ZSH/Dotfiles ]]; then
-  git -C "$ZSH/" remote add dotfiles https://github.com/calamityesp/Dotfiles.git
-fi
+git -C "$ZSH/Dotfiles" submodule update --init --recursive
 
 read -e -p "Dotfiles work profile? (N/y): " -i "n" install
 if [[ "y" == ${install,,} ]]; then
@@ -115,17 +113,26 @@ if [[ "y" == ${install,,} ]]; then
 fi
 
 log $INFO "Creating Dotfiles symbolic link"
-rm $HOME/.Dotfiles ||yes
+[ -L "$HOME/.Dotfiles" ] && rm "$HOME/.Dotfiles"
 ln -sf $ZSH/Dotfiles ~/.Dotfiles
 
-log $WARN "Run $ZSH/tools/nvim_admin.sh to setup admin and edit nvim"
+# log $WARN "Run $ZSH/tools/nvim_admin.sh to setup admin and edit nvim"
 
 ##################################################r
-#  SECTION: RUN STOW
+#  SECTION: RUN DOTFILES STOW
 ##################################################
+# Remove any symbolic links in .config
+for dir in "$HOME/.config/"*;do
+  base=$(basename $dir)
+  match=$(find "$ZSH/Dotfiles" -type d -name "$base" -prune)
+  if [[ -n "$match" ]]; then
+    mv $dir $dir.backup
+  fi
+done
+
 for dir in $ZSH/Dotfiles/*; do
   base=$(basename $dir)
-  stow -d $ZSH/Dotfiles -t ~ $base
+  stow -d $HOME/.oh-my-zsh-kdds/Dotfiles -t ~ $base
 done
 
 ##################################################r
@@ -137,8 +144,9 @@ for dir in ${Additonal_Directories[@]}; do
   if [[ -d "$HOME/$dir" && ! -L "$HOME/$dir" ]]; then
     log $WARN "Dir $dir exists! Moving to .old"
     mv $HOME/$dir $HOME/$dir.old
+  else
+    rm $dir
   fi
-  rm $dir
   ln -sf $ZSH/$dir ~/$dir
   log $INFO "Symbolic Link Created: $dir"
 done

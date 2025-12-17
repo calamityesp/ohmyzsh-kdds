@@ -20,10 +20,12 @@ git -C "$ZSH" pull
 ##################################################
 #  SECTION: UPDATE ZSH SUBMODULES
 ##################################################
+git -C $ZSH submodule update --init --recursive
 git -C $ZSH submodule update --remote
 
 ##################################################
 #  SECTION: UPDATE DOTFILES
 ##################################################
+git -C $DOTFILES submodule update --init --recursive
 git -C $DOTFILES submodule update --remote
 

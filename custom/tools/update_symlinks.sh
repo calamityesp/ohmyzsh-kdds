@@ -9,7 +9,20 @@ ZSH="$HOME/.oh-my-zsh-kdds"
 # Collecting the Symbolic links 
 ######################################
 base=()
+
+# Symlinks from home folder
 for dir in $HOME/* ;do
+  if [[ -L $dir ]];then
+    if [[ "$(readlink "$dir")" == $ZSH/* ]]; then
+      base+="$(basename $dir) "
+      rm $dir
+    fi
+  fi
+done
+
+# Symlinks from .config
+for dir in $HOME/.config/* ;do
+    echo $dir
   if [[ -L $dir ]];then
     if [[ "$(readlink "$dir")" == $ZSH/* ]]; then
       base+="$(basename $dir) "
@@ -28,6 +41,7 @@ done
 ######################################
 # Run Stow in Dotfiles
 ######################################
-for dir in $ZSH/Dotfiles/*; do 
-  stow -d "$ZSH/Dotfiles" -t "$HOME" "$(basename $dir)"
+for dir in $ZSH/Dotfiles/* ; do
+  basename="$(basename $dir )"
+  stow -d "$ZSH/Dotfiles" -t "$HOME" $basename
 done
