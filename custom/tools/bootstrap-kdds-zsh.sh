@@ -98,10 +98,23 @@ else
 fi
 
 log $CONFIRMED "brew"
+
+####################################################
+# run Oh-my-zsh install script
+####################################################
+if [[ ! -d $HOME/.oh-my-zsh-kdds ]]; then
+  log $INFO "Installing Oh-my-zsh-kdds"
+  export ZSH="$HOME/.oh-my-kdds-zsh"
+  export REPO="calamityesp/ohmyzsh-kdds"
+  export REMOTE="https://github.com/calamityesp/ohmyzsh-kdds.git"
+  export BRANCH="main"
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+
 ####################################################
 # run kdds setup script
 ####################################################
 log $INFO "Installing Oh-my-kdds-zsh:"
 sleep 2
 
-bash -c "$(curl https://raw.githubusercontent.com/calamityesp/ohmyzsh-kdds/refs/heads/main/custom/tools/setup-oh-my-zsh-kdds.sh)"
+# bash -c "$(curl https://raw.githubusercontent.com/calamityesp/ohmyzsh-kdds/refs/heads/main/custom/tools/setup-oh-my-zsh-kdds.sh)"

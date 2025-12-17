@@ -25,7 +25,7 @@ IFS=$'\n\t'
 ##################################################
 #  SECTION: CONSTANTS
 ##################################################
-readonly ZSH="$HOME/.oh-my-kdds-zsh"
+readonly ZSH="$HOME/.oh-my-zsh-kdds"
 readonly DOTFILES="$ZSH/Dotfiles"
 readonly GREEN="\e[32m"
 readonly RED="\e[31m"
@@ -144,6 +144,6 @@ done
 ##################################################r
 #  SECTION: FINISH AND LAUNCH ZSH
 ##################################################
-log $INFO "Finished Setting up Oh-My-Kdds-Zsh"
+log $INFO "Finished Setting up Oh-My-Zsh-KDDS"
 exec zsh
 
