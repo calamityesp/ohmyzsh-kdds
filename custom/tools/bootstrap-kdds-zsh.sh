@@ -111,6 +111,8 @@ if [[ ! -d $HOME/.oh-my-zsh-kdds ]]; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
 
+log $INFO "Running Kdds Update"
+
 ####################################################
 # run kdds setup script
 ####################################################
