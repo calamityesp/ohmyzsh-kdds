@@ -89,7 +89,7 @@ log $INFO "Adding Additional Directories"
 log $INFO "Removing Any Existing Symbolic Links..."
 
 # removing any existing symbolic links to ZSH
-# source $ZSH/tools/remove_symlinks.sh
+source $ZSH/custom/tools/update_symlinks.sh
 
 # removing legacy symbolic links (oh-my-kdds) ---- NOT COMPLETED
 log $INFO "Removing Any Legacy Symbolic Links..."

@@ -112,7 +112,7 @@ if [[ ! -d $HOME/.oh-my-zsh-kdds ]]; then
 fi
 
 log $INFO "Running Kdds Update"
-git -c $ZSH checkout develop
+git -C "$ZSH" checkout develop
 . $ZSH/custom/tools/update_kdds.sh
 
 ####################################################
