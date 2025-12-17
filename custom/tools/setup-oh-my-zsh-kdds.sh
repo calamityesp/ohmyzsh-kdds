@@ -100,9 +100,9 @@ sleep 1
 ##################################################
 #  SECTION: CLONING DOTFILES
 ################################################
-log $INFO "Cloning Dotfiles Repository"
+log $INFO "Setting up Dotfiles Repository"
+git -C "$ZSH/" submodule update --init --recursive
 if [[ ! -d $ZSH/Dotfiles ]]; then
-  git -C "$ZSH/" clone https://github.com/calamityesp/Dotfiles.git
   git -C "$ZSH/" remote add dotfiles https://github.com/calamityesp/Dotfiles.git
 fi
 
