@@ -138,6 +138,7 @@ for dir in ${Additonal_Directories[@]}; do
     log $WARN "Dir $dir exists! Moving to .old"
     mv $HOME/$dir $HOME/$dir.old
   fi
+  rm $dir
   ln -sf $ZSH/$dir ~/$dir
   log $INFO "Symbolic Link Created: $dir"
 done
