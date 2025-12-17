@@ -115,6 +115,7 @@ if [[ "y" == ${install,,} ]]; then
 fi
 
 log $INFO "Creating Dotfiles symbolic link"
+rm $HOME/.Dotfiles ||yes
 ln -sf $ZSH/Dotfiles ~/.Dotfiles
 
 log $WARN "Run $ZSH/tools/nvim_admin.sh to setup admin and edit nvim"
