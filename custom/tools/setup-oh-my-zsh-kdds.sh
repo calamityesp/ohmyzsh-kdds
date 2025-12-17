@@ -168,5 +168,6 @@ done
 #  SECTION: FINISH AND LAUNCH ZSH
 ##################################################
 log $INFO "Finished Setting up Oh-My-Zsh-KDDS"
+chmod +x $ZSH/oh-my-zsh.sh
 exec zsh
 
