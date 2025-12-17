@@ -104,7 +104,7 @@ log $CONFIRMED "brew"
 ####################################################
 if [[ ! -d $HOME/.oh-my-zsh-kdds ]]; then
   log $INFO "Installing Oh-my-zsh-kdds"
-  export ZSH="$HOME/.oh-my-kdds-zsh"
+  export ZSH="$HOME/.oh-my-zsh-kdds"
   export REPO="calamityesp/ohmyzsh-kdds"
   export REMOTE="https://github.com/calamityesp/ohmyzsh-kdds.git"
   export BRANCH="main"
