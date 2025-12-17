@@ -25,7 +25,7 @@ IFS=$'\n\t'
 ##################################################
 #  SECTION: CONSTANTS
 ##################################################
-readonly ZSH="$HOME/.oh-my-zsh-kdds"
+ZSH="$HOME/.oh-my-zsh-kdds"
 readonly DOTFILES="$ZSH/Dotfiles"
 readonly GREEN="\e[32m"
 readonly RED="\e[31m"

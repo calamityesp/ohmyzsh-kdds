@@ -3,7 +3,7 @@
 ######################################
 # GLOBAL
 ######################################
-ZSH="$HOME/.oh-my-zsh-kdds"
+# ZSH="$HOME/.oh-my-zsh-kdds"
 
 ######################################
 # Collecting the Symbolic links 
@@ -13,6 +13,7 @@ for dir in $HOME/* ;do
   if [[ -L $dir ]];then
     if [[ "$(readlink "$dir")" == $ZSH/* ]]; then
       base+="$(basename $dir) "
+      rm $dir
     fi
   fi
 done

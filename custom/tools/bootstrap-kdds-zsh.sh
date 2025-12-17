@@ -121,4 +121,4 @@ git -C "$ZSH" checkout develop
 log $INFO "Installing Oh-my-zsh-kdds:"
 sleep 2
 
-bash -c "$(curl https://raw.githubusercontent.com/calamityesp/ohmyzsh-kdds/refs/heads/main/custom/tools/setup-oh-my-zsh-kdds.sh)"
+bash -c "$(curl https://raw.githubusercontent.com/calamityesp/ohmyzsh-kdds/refs/heads/develop/custom/tools/setup-oh-my-zsh-kdds.sh)"
