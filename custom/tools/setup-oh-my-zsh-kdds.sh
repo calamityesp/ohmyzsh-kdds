@@ -122,10 +122,11 @@ if [[ "y" == ${install,,} ]]; then
 fi
 
 log $INFO "Creating Dotfiles symbolic link"
-[ -L "$HOME/.Dotfiles" ] && rm "$HOME/.Dotfiles"
+if [ -L "$HOME/.Dotfiles" ]; then
+  rm "$HOME/.Dotfiles"
+fi
 ln -sf $ZSH/Dotfiles ~/.Dotfiles
 
-exit 99
 # log $WARN "Run $ZSH/tools/nvim_admin.sh to setup admin and edit nvim"
 
 ##################################################r
@@ -155,7 +156,9 @@ for dir in ${Additonal_Directories[@]}; do
     log $WARN "Dir $dir exists! Moving to .old"
     mv $HOME/$dir $HOME/$dir.old
   else
-    rm $dir
+    if [[ -L $HOME/$dir ]]; then
+      rm $HOME/$dir
+    fi
   fi
   ln -sf $ZSH/$dir ~/$dir
   log $INFO "Symbolic Link Created: $dir"
