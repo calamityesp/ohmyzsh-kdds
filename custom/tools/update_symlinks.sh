@@ -3,7 +3,7 @@
 ######################################
 # GLOBAL
 ######################################
-# ZSH="$HOME/.oh-my-zsh-kdds"
+ZSH="$HOME/.oh-my-zsh-kdds"
 
 ######################################
 # Collecting the Symbolic links 
@@ -28,4 +28,6 @@ done
 ######################################
 # Run Stow in Dotfiles
 ######################################
-
+for dir in $ZSH/Dotfiles/*; do 
+  stow -d "$ZSH/Dotfiles" -t "$HOME" "$(basename $dir)"
+done
