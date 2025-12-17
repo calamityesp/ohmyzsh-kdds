@@ -96,6 +96,13 @@ log $INFO "Removing Any Legacy Symbolic Links..."
 log $INFO "TODO: write legacy setup script"
 sleep 1
 
+##################################################
+#  SECTION: Checking Existing ZSHRC
+################################################
+if [[ -f $HOME/.zshrc ]]; then
+  log $INFO ".zshrc exists! moving to a backup"
+  mv $HOME/.zshrc $HOME/.zshrc_backup
+fi
 
 ##################################################
 #  SECTION: CLONING DOTFILES
@@ -118,6 +125,7 @@ log $INFO "Creating Dotfiles symbolic link"
 [ -L "$HOME/.Dotfiles" ] && rm "$HOME/.Dotfiles"
 ln -sf $ZSH/Dotfiles ~/.Dotfiles
 
+exit 99
 # log $WARN "Run $ZSH/tools/nvim_admin.sh to setup admin and edit nvim"
 
 ##################################################r
