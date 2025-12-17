@@ -100,8 +100,8 @@ sleep 1
 #  SECTION: Checking Existing ZSHRC
 ################################################
 if [[ -f $HOME/.zshrc ]]; then
-  log $INFO ".zshrc exists! moving to a backup"
-  mv $HOME/.zshrc $HOME/.zshrc_backup
+  log $INFO ".zshrc exists! removing"
+  rm ~/.zshrc
 fi
 
 ##################################################
