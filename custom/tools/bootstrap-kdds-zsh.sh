@@ -112,6 +112,7 @@ if [[ ! -d $HOME/.oh-my-zsh-kdds ]]; then
 fi
 
 log $INFO "Running Kdds Update"
+. $ZSH/custom/tools/update_kdds.sh
 
 ####################################################
 # run kdds setup script
