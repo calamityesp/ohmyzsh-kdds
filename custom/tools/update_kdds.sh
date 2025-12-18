@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export ZSH="$HOME/.oh-my-kdds-zsh"
+export ZSH="$HOME/.oh-my-zsh-kdds"
 export DOTFILES="$ZSH/Dotfiles"
 
 ##################################################
@@ -20,10 +20,12 @@ git -C "$ZSH" pull
 ##################################################
 #  SECTION: UPDATE ZSH SUBMODULES
 ##################################################
+git -C $ZSH submodule update --init --recursive
 git -C $ZSH submodule update --remote
 
 ##################################################
 #  SECTION: UPDATE DOTFILES
 ##################################################
+git -C $DOTFILES submodule update --init --recursive
 git -C $DOTFILES submodule update --remote
 

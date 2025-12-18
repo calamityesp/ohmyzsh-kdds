@@ -25,7 +25,7 @@ IFS=$'\n\t'
 ##################################################
 #  SECTION: CONSTANTS
 ##################################################
-readonly ZSH="$HOME/.oh-my-kdds-zsh"
+ZSH="$HOME/.oh-my-zsh-kdds"
 readonly DOTFILES="$ZSH/Dotfiles"
 readonly GREEN="\e[32m"
 readonly RED="\e[31m"
@@ -89,22 +89,29 @@ log $INFO "Adding Additional Directories"
 log $INFO "Removing Any Existing Symbolic Links..."
 
 # removing any existing symbolic links to ZSH
-source $ZSH/tools/remove_symlinks.sh
+# source $ZSH/custom/tools/update_symlinks.sh
 
 # removing legacy symbolic links (oh-my-kdds) ---- NOT COMPLETED
 log $INFO "Removing Any Legacy Symbolic Links..."
 log $INFO "TODO: write legacy setup script"
 sleep 1
 
+##################################################
+#  SECTION: Checking Existing ZSHRC
+################################################
+if [[ -f $HOME/.zshrc ]]; then
+  log $INFO ".zshrc exists! removing"
+  rm ~/.zshrc
+fi
 
 ##################################################
 #  SECTION: CLONING DOTFILES
 ################################################
-log $INFO "Cloning Dotfiles Repository"
-if [[ ! -d $ZSH/Dotfiles ]]; then
-  git -C "$ZSH/" clone https://github.com/calamityesp/Dotfiles.git
-  git -C "$ZSH/" remote add dotfiles https://github.com/calamityesp/Dotfiles.git
-fi
+log $INFO "Setting up Dotfiles Repository"
+git -C "$ZSH/" submodule update --init --recursive
+git -C "$ZSH/" submodule update --remote
+git -C "$ZSH/Dotfiles" submodule update --init --recursive
+git -C "$ZSH/Dotfiles" submodule update --remote
 
 read -e -p "Dotfiles work profile? (N/y): " -i "n" install
 if [[ "y" == ${install,,} ]]; then
@@ -115,16 +122,28 @@ if [[ "y" == ${install,,} ]]; then
 fi
 
 log $INFO "Creating Dotfiles symbolic link"
+if [ -L "$HOME/.Dotfiles" ]; then
+  rm "$HOME/.Dotfiles"
+fi
 ln -sf $ZSH/Dotfiles ~/.Dotfiles
 
-log $WARN "Run $ZSH/tools/nvim_admin.sh to setup admin and edit nvim"
+# log $WARN "Run $ZSH/tools/nvim_admin.sh to setup admin and edit nvim"
 
 ##################################################r
-#  SECTION: RUN STOW
+#  SECTION: RUN DOTFILES STOW
 ##################################################
+# Remove any symbolic links in .config
+for dir in "$HOME/.config/"*;do
+  base=$(basename $dir)
+  match=$(find "$ZSH/Dotfiles" -type d -name "$base" -prune)
+  if [[ -n "$match" ]]; then
+    mv $dir $dir.backup
+  fi
+done
+
 for dir in $ZSH/Dotfiles/*; do
   base=$(basename $dir)
-  stow -d $ZSH/Dotfiles -t ~ $base
+  stow -d $HOME/.oh-my-zsh-kdds/Dotfiles -t ~ $base
 done
 
 ##################################################r
@@ -136,6 +155,10 @@ for dir in ${Additonal_Directories[@]}; do
   if [[ -d "$HOME/$dir" && ! -L "$HOME/$dir" ]]; then
     log $WARN "Dir $dir exists! Moving to .old"
     mv $HOME/$dir $HOME/$dir.old
+  else
+    if [[ -L $HOME/$dir ]]; then
+      rm $HOME/$dir
+    fi
   fi
   ln -sf $ZSH/$dir ~/$dir
   log $INFO "Symbolic Link Created: $dir"
@@ -144,6 +167,7 @@ done
 ##################################################r
 #  SECTION: FINISH AND LAUNCH ZSH
 ##################################################
-log $INFO "Finished Setting up Oh-My-Kdds-Zsh"
+log $INFO "Finished Setting up Oh-My-Zsh-KDDS"
+chmod +x $ZSH/oh-my-zsh.sh
 exec zsh
 

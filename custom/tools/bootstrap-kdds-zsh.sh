@@ -27,6 +27,7 @@ IFS=$'\n\t'
 readonly RED="\e[31m"
 readonly RESET="\e[0m"
 readonly GREEN="\e[32m"
+ZSH="$HOME/.oh-my-zsh-kdds/"
 
 ####################################################
 # Variables
@@ -86,6 +87,8 @@ if [[ -x "/opt/homebrew/bin/brew" ]]; then
    eval "$(/opt/homebrew/bin/brew shellenv)"
 elif [[ -x "/usr/local/bin/brew" ]]; then
    eval "$(/usr/local/bin/brew shellenv)"
+elif [[ -x "/home/linuxbrew/.linuxbrew/bin/brew" ]]; then
+   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 else
    printf "✘ Homebrew not found. Installing\n"
    bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -96,10 +99,27 @@ else
 fi
 
 log $CONFIRMED "brew"
+
+####################################################
+# run Oh-my-zsh install script
+####################################################
+if [[ ! -d $HOME/.oh-my-zsh-kdds ]]; then
+  log $INFO "Installing Oh-my-zsh-kdds"
+  export ZSH="$HOME/.oh-my-zsh-kdds"
+  export REPO="calamityesp/ohmyzsh-kdds"
+  export REMOTE="https://github.com/calamityesp/ohmyzsh-kdds.git"
+  export BRANCH="develop"
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+fi
+
+log $INFO "Running Kdds Update"
+git -C "$ZSH" checkout develop
+. $ZSH/custom/tools/update_kdds.sh
+
 ####################################################
 # run kdds setup script
 ####################################################
-log $INFO "Installing Oh-my-kdds-zsh:"
+log $INFO "Installing Oh-my-zsh-kdds:"
 sleep 2
 
-bash -c "$(curl https://raw.githubusercontent.com/calamityesp/ohmyzsh-kdds/refs/heads/main/custom/tools/setup-oh-my-zsh-kdds.sh)"
+bash -c "$(curl https://raw.githubusercontent.com/calamityesp/ohmyzsh-kdds/refs/heads/develop/custom/tools/setup-oh-my-zsh-kdds.sh)"
