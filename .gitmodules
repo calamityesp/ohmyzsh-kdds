@@ -2,3 +2,6 @@
 	path = Dotfiles
 	url = https://github.com/calamityesp/Dotfiles.git
   branch = work
+[submodule "custom/plugins/grasshopper"]
+	path = custom/plugins/grasshopper
+	url = git@git.dtc.dish.corp:shankey/grasshopper-plugin-kdds.git

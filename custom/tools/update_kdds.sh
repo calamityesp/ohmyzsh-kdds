@@ -13,9 +13,10 @@ set -euo pipefail
 IFS=$'\n\t'
 
 ##################################################
-#  SECTION: UPDATE ZSH DIR
+#  SECTION: UPDATE ZSH DIR AND SUBMODULES
 ##################################################
 git -C "$ZSH" pull
+git -C "$ZSH" submodule foreach "git pull"
 
 ##################################################
 #  SECTION: UPDATE ZSH SUBMODULES
