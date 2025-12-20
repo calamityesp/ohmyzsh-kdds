@@ -6,7 +6,7 @@ export DOTFILES="$ZSH/Dotfiles"
 ##################################################
 #  SECTION: CHECKS
 ##################################################
-if [[ -z $KDDS_PROFILE ]]: then
+if [[ -z $KDDS_PROFILE ]]; then
   printf "Error: .zshrc profile not set. Set and rerun\n"
   exit 1
 fi
