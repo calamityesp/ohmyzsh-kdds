@@ -48,4 +48,8 @@ alias editkdds=nvim "$ZSH/custom/plugins/kdds/kdds.plugin.zsh"
 #  SECTION: Tool Aliases
 ##################################################
 alias updatekdds="$ZSH/custom/tools/update_kdds.sh"
-alias updatedotfiles="$ZSH/custom"
+alias kddsupdate="$ZSH/custom/tools/update_kdds.sh"
+alias kddsupdk="$ZSH/custom/tools/update_kdds.sh"
+alias updatedotfiles="$ZSH/custom/tools/update_dotfiles.sh"
+alias kddsupdatedotfiles="$ZSH/custom/tools/update_dotfiles.sh"
+alias kddsupdd="$ZSH/custom/tools/update_dotfiles.sh"
