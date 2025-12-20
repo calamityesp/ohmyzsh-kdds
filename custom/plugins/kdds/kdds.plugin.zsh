@@ -32,9 +32,11 @@ alias plugins="$ZSH/plugins"
 
 # Oh-My-KDDS
 alias kdds_custom="$ZSH/custom"
+alias kddsc="$ZSH/custom"
 alias kdds_custom_tools="$ZSH/custom/tools"
-alias kdds_tools="$ZSH/custom/tools"
+alias kddst="$ZSH/custom/tools"
 alias kdds_custom_plugins="$ZSH/custom/plugins"
+alias kddsp="$ZSH/custom/plugins"
 alias kdds_logs="$ZSH/logs"
 
 ##################################################
