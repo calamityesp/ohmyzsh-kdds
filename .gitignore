@@ -17,3 +17,6 @@ log/
 
 # zcompile cached files
 *.zwc
+
+# ignore files
+oh-my-zsh.sh
