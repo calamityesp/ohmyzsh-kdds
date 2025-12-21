@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
-TARGET_DIR="$ZSH"
+ZSH="$HOME/.oh-my-zsh-kdds"
 
 for d in $HOME/*; do
 	if [[ -L "$d" ]]; then
-		printf "Removing %s\n" "$d"
-		rm $d
+    if [[ "$(basename $d)" == $ZSH/* ]]; then
+      printf "Removing %s\n" "$d"
+      rm $d
+    fi
 	fi
 done
