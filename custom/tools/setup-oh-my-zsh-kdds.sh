@@ -79,17 +79,12 @@ if ! command -v stow &>/dev/null; then
 fi
 
 ##################################################
-#  SECTION: ADDING ADDITIONAL DIRECTORIES
-##################################################
-log $INFO "Adding Additional Directories"
-
-##################################################
 #  SECTION: REMOVING STAGNANT SYMLINKS
 ##################################################
 log $INFO "Removing Any Existing Symbolic Links..."
 
 # removing any existing symbolic links to ZSH
-# source $ZSH/custom/tools/update_symlinks.sh
+source $ZSH/custom/tools/update_symlinks.sh
 
 # removing legacy symbolic links (oh-my-kdds) ---- NOT COMPLETED
 log $INFO "Removing Any Legacy Symbolic Links..."
@@ -105,29 +100,33 @@ if [[ -f $HOME/.zshrc ]]; then
 fi
 
 ##################################################
-#  SECTION: CLONING DOTFILES
+#  SECTION: SELECT PROFILE
 ################################################
-log $INFO "Setting up Dotfiles Repository"
+log $INFO "Select a profile:"
+select choice in "main" "develop" "work"; do
+  case $REPLY in
+    1|2|3)
+      CHOICE="$choice"
+      break ;;
+    *) log $ERROR "Invalid choice. Pick 1, 2, or 3." ;;
+  esac
+done
+log $INFO "$CHOICE profile selected!"
+
+##################################################r
+#  SECTION: CHANGE PROFILE
+##################################################
+log $INFO "Switching to $CHOICE"
+git $ZSH checkout $CHOICE
+
+##################################################
+#  SECTION: CLONING SUBMODULES
+################################################
+log $INFO "Initializing All Levals Submodules"
 git -C "$ZSH/" submodule update --init --recursive
 git -C "$ZSH/" submodule update --remote
-git -C "$ZSH/Dotfiles" submodule update --init --recursive
+# git -C "$ZSH/Dotfiles" submodule update --init --recursive
 git -C "$ZSH/Dotfiles" submodule update --remote
-
-read -e -p "Dotfiles work profile? (N/y): " -i "n" install
-if [[ "y" == ${install,,} ]]; then
-  log $WARN "Dotfiles: deleting local work branch and making new work branch from remote"
-  sleep 2
-  git -C $ZSH/Dotfiles checkout -b work origin/work || true
-  git -C $ZSH/Dotfiles submodule update --remote
-fi
-
-log $INFO "Creating Dotfiles symbolic link"
-if [ -L "$HOME/.Dotfiles" ]; then
-  rm "$HOME/.Dotfiles"
-fi
-ln -sf $ZSH/Dotfiles ~/.Dotfiles
-
-# log $WARN "Run $ZSH/tools/nvim_admin.sh to setup admin and edit nvim"
 
 ##################################################r
 #  SECTION: RUN DOTFILES STOW
@@ -163,12 +162,6 @@ for dir in ${Additonal_Directories[@]}; do
   ln -sf $ZSH/$dir ~/$dir
   log $INFO "Symbolic Link Created: $dir"
 done
-
-##################################################
-#  SECTION: SETUP OBSIDIAN
-################################################
-log $INFO "Setting up Obsidian"
-./setup-obsidian.sh
 
 ##################################################r
 #  SECTION: FINISH AND LAUNCH ZSH
