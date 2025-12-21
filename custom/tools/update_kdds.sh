@@ -33,4 +33,4 @@ git -C $DOTFILES submodule update --remote
 ##################################################
 #  SECTION: SOURCE ZSHRC
 ##################################################
-zsh . $HOME/.zshrc
+. $HOME/.zshrc
