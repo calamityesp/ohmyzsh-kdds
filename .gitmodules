@@ -2,3 +2,6 @@
 	path = Dotfiles
 	url = https://github.com/calamityesp/Dotfiles.git
   branch = develop
+[submodule "Obsidian"]
+	path = Obsidian
+	url = git@github.com:calamityesp/obsidian.git
