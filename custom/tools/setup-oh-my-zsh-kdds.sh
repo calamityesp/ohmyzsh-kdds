@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+!/usr/bin/env bash
 ####################################################
 # Script: setup-oh-my-zsh-kdds.sh
 #
