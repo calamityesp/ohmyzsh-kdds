@@ -30,3 +30,7 @@ git -C $DOTFILES submodule foreach "git checkout $KDDS_PROFILE; git pull"
 git -C $DOTFILES submodule update --init --recursive
 git -C $DOTFILES submodule update --remote
 
+##################################################
+#  SECTION: SOURCE ZSHRC
+##################################################
+. $HOME/.zshrc
