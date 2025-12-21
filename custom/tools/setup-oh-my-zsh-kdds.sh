@@ -164,6 +164,12 @@ for dir in ${Additonal_Directories[@]}; do
   log $INFO "Symbolic Link Created: $dir"
 done
 
+##################################################
+#  SECTION: SETUP OBSIDIAN
+################################################
+log $INFO "Setting up Obsidian"
+./setup-obsidian.sh
+
 ##################################################r
 #  SECTION: FINISH AND LAUNCH ZSH
 ##################################################
