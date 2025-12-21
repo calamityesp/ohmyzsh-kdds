@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 export ZSH="$HOME/.oh-my-zsh-kdds"
 export DOTFILES="$ZSH/Dotfiles"
@@ -33,4 +33,4 @@ git -C $DOTFILES submodule update --remote
 ##################################################
 #  SECTION: SOURCE ZSHRC
 ##################################################
-. $HOME/.zshrc
+zsh . $HOME/.zshrc
