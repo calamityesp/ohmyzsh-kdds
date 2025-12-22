@@ -1,6 +1,6 @@
 local userhost="%{$fg_bold[blue]%n@%m%f%{$reset_color%}"
 PROMPT="
-[$userhost] %B%{$FG[214]%}%~%{$reset_color%}"
+[$userhost] %B%{$FG[214]%}%~%f%{$reset_color%}"
 PROMPT+=' $(git_prompt_info)
 %(?:%{$fg_bold[green]%}%1{➜%} :%{$fg_bold[red]%}%1{➜%} ) %{$reset_color%}'
 
