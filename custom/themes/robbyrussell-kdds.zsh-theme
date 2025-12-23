@@ -6,6 +6,7 @@ function zle-keymap-select {
   else
     PROMPT_SYMBOL=""
   fi
+  printf "\e[A1"
   zle reset-prompt
 }
 
