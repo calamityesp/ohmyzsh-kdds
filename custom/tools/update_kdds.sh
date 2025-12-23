@@ -15,20 +15,7 @@ fi
 #  SECTION: UPDATE ZSH DIR AND SUBMODULES
 ##################################################
 git -C "$ZSH" pull
-git -C "$ZSH" submodule foreach "git checkout $KDDS_PROFILE; git pull"
-
-##################################################
-#  SECTION: UPDATE ZSH SUBMODULES
-##################################################
 git -C $ZSH submodule update --init --recursive
-git -C $ZSH submodule update --remote
-
-##################################################
-#  SECTION: UPDATE DOTFILES
-##################################################
-git -C $DOTFILES submodule foreach "git checkout $KDDS_PROFILE; git pull"
-git -C $DOTFILES submodule update --init --recursive
-git -C $DOTFILES submodule update --remote
 
 ##################################################
 #  SECTION: RESETTING SYMLINKS
