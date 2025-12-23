@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 export ZSH="$HOME/.oh-my-zsh-kdds"
 export DOTFILES="$ZSH/Dotfiles"
@@ -30,3 +30,12 @@ git -C $DOTFILES submodule foreach "git checkout $KDDS_PROFILE; git pull"
 git -C $DOTFILES submodule update --init --recursive
 git -C $DOTFILES submodule update --remote
 
+##################################################
+#  SECTION: RESETTING SYMLINKS
+##################################################
+./update_symlinks.sh
+
+##################################################
+#  SECTION: SOURCE ZSHRC
+##################################################
+. $HOME/.zshrc
