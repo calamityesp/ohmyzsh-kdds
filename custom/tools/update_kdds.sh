@@ -31,6 +31,11 @@ git -C $DOTFILES submodule update --init --recursive
 git -C $DOTFILES submodule update --remote
 
 ##################################################
+#  SECTION: RESETTING SYMLINKS
+##################################################
+./update_symlinks.sh
+
+##################################################
 #  SECTION: SOURCE ZSHRC
 ##################################################
 . $HOME/.zshrc
