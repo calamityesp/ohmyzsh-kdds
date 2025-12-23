@@ -16,6 +16,7 @@ fi
 ##################################################
 git -C "$ZSH" pull
 git -C $ZSH submodule update --init --recursive
+git -C $ZSH submodule update --remote --recursive
 
 ##################################################
 #  SECTION: RESETTING SYMLINKS
