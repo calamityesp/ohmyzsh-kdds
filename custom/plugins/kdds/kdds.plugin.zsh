@@ -14,6 +14,13 @@
 # Safe to re-run:
 #   Yes
 ####################################################
+
+
+
+#****************************************************************************************************
+#                                               Aliases
+#****************************************************************************************************
+
 ##################################################
 #  SECTION: Variables
 ##################################################
@@ -29,6 +36,7 @@ alias scripts="$ZSH/Scripts"
 alias repos="$ZSH/Repos"
 alias custom="$ZSH/custom"
 alias plugins="$ZSH/plugins"
+alias cdzsh="cd $ZSH"
 
 # Oh-My-KDDS
 alias kdds_custom="$ZSH/custom"
@@ -43,6 +51,7 @@ alias kdds_logs="$ZSH/logs"
 #  SECTION: General Aliases
 ##################################################
 alias editkdds=nvim "$ZSH/custom/plugins/kdds/kdds.plugin.zsh"
+alias editzshrc=nvim "$HOME/.zshrc"
 
 
 ##################################################
