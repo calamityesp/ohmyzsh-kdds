@@ -68,5 +68,5 @@ alias kddsupdd="$ZSH/custom/tools/update_dotfiles.sh"
 #  SECTION: Docker Related
 ##################################################
 # Launch Windows in docker using Dockurr
-alias dockwindows='docker run -it --rm --name windows -e "VERSION=11" -p 8006:8006 --device=/dev/kvm --device=/dev/net/tun --cap-add NET_ADMIN -v "${PWD:-.}/windows:/storage" --stop-timeout 120 docker.io/dockurr/windows'
+alias dockwindows='docker run -it --rm --name windows -e "VERSION=11" -p 8006:8006 --device=/dev/kvm --device=/dev/net/tun --cap-add NET_ADMIN -v "$HOME/NFS/windows:/storage" --stop-timeout 120 docker.io/dockurr/windows'
 
