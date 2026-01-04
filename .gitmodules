@@ -5,3 +5,4 @@
 [submodule "Obsidian"]
 	path = Obsidian
 	url = git@github.com:calamityesp/obsidian.git
+  branch = main
