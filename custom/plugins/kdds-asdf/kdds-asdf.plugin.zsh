@@ -19,7 +19,7 @@ _asdf_java_update () {
     source $(brew --prefix)/opt/asdf/libexec/asdf.sh
   fi
 
-  export JAVA_HOME="$(command asdf which java)"
+  export JAVA_HOME="$(command asdf where java)"
   echo "JAVA_HOME updated!! "
 }
 
