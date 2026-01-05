@@ -6,5 +6,6 @@
 	path = custom/plugins/grasshopper
 	url = git@git.dtc.dish.corp:shankey/grasshopper-plugin-kdds.git
 [submodule "Obsidian"]
-  path = Obsidian
-  url = git@github.com:calamityesp/obsidian.git
+	path = Obsidian
+	url = git@github.com:calamityesp/obsidian.git
+  branch = main
