@@ -52,6 +52,7 @@ alias kdds_logs="$ZSH/logs"
 ##################################################
 alias editkdds="nvim $ZSH/custom/plugins/kdds/kdds.plugin.zsh"
 alias editzshrc="nvim $HOME/.zshrc"
+alias editzshrclocal="nvim $ZSH/.kdds_alias"
 
 
 ##################################################
