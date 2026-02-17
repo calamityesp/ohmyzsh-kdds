@@ -65,6 +65,11 @@ alias kddsupdatedotfiles="$ZSH/custom/tools/update_dotfiles.sh"
 alias kddsupdd="$ZSH/custom/tools/update_dotfiles.sh"
 
 ##################################################
+#  SECTION: Obsidian Aliases
+##################################################
+alias drawkdds="obsidian $HOME/Obsidian/Calamity_Draw/ &> /dev/null &"
+
+##################################################
 #  SECTION: Docker Related
 ##################################################
 # Launch Windows in docker using Dockurr
