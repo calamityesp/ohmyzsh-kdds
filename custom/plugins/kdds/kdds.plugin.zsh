@@ -71,7 +71,7 @@ alias kddsupdd="$ZSH/custom/tools/update_dotfiles.sh"
 #  SECTION: Obsidian Aliases
 ##################################################
 alias kddsdraw="obsidian $HOME/Obsidian/Calamity_Draw/ &> /dev/null &"
-alias kddsthink="obsidian $HOME/Obsidian/Calamity_Thinking/ &> /dev/null &"
+alias kddsthink="xdg_open obsidian://"
 alias kanban="obsidian $HOME/Obsidian/Calamity_Thinking/kanban/Taskboard.md &> /dev/null &"
 
 ##################################################
