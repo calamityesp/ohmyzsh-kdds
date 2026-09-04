@@ -1,0 +1,20 @@
+[submodule "nvim/.config/nvim"]
+	path = nvim/.config/nvim
+	url = https://github.com/calamityesp/nvim_config_kdds.git
+	branch = develop
+[submodule "zsh"]
+	path = zsh
+	url = https://github.com/calamityesp/zshrc-kdds.git
+	branch = develop
+[submodule "tmux"]
+	path = tmux
+	url = https://github.com/calamityesp/tmux-kdds.git
+[submodule "ideavim"]
+	path = ideavim
+	url = https://gist.github.com/5708ba78199701083880efe9f5ef7d70.git
+[submodule "nighttab"]
+	path = nighttab
+	url = https://gist.github.com/449dec1b05e557108c74060615bb1057.git
+[submodule "nighttab/.config/nightab"]
+	path = nighttab/.config/nightab
+	url = https://gist.github.com/449dec1b05e557108c74060615bb1057.git

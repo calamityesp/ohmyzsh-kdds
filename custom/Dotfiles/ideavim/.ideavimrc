@@ -1,0 +1,184 @@
+set visualbell
+set noerrorbells
+
+let mapleader =" "
+
+Plug 'preservim/nerdtree'
+map <leader>ee  :NERDTree<CR>
+map <leader>eee :NERDTreeToggle<CR>
+" map <C-l> :NERDTreeFocus<cr>
+" :NERDTree
+" :NERDTreeFind
+" :NERDTreeClose
+" :NERDTreeRefreshRoot
+" 2.3. NERDTree Mappings                                        *NERDTreeMappings*
+"
+" Default~
+" Key      Description                                                  help-tag~
+"
+" o........Open files, directories and bookmarks......................|NERDTree-o|
+" go.......Open selected file, but leave cursor in the NERDTree......|NERDTree-go|
+"          Find selected bookmark directory in current NERDTree
+" t........Open selected node/bookmark in a new tab...................|NERDTree-t|
+" T........Same as 't' but keep the focus on the current tab..........|NERDTree-T|
+" i........Open selected file in a split window.......................|NERDTree-i|
+" gi.......Same as i, but leave the cursor on the NERDTree...........|NERDTree-gi|
+" s........Open selected file in a new vsplit.........................|NERDTree-s|
+" gs.......Same as s, but leave the cursor on the NERDTree...........|NERDTree-gs|
+" <CR>.....User-definable custom open action.......................|NERDTree-<CR>|
+" O........Recursively open the selected directory....................|NERDTree-O|
+" x........Close the current nodes parent.............................|NERDTree-x|
+" X........Recursively close all children of the current node.........|NERDTree-X|
+" e........Edit the current directory.................................|NERDTree-e|
+"
+" double-click....same as |NERDTree-o|.
+" middle-click....same as |NERDTree-i| for files, and |NERDTree-e| for directories.
+"
+" D........Delete the current bookmark ...............................|NERDTree-D|
+"
+" P........Jump to the root node......................................|NERDTree-P|
+" p........Jump to current nodes parent...............................|NERDTree-p|
+" K........Jump up inside directories at the current tree depth.......|NERDTree-K|
+" J........Jump down inside directories at the current tree depth.....|NERDTree-J|
+" <C-J>....Jump down to next sibling of the current directory.......|NERDTree-C-J|
+" <C-K>....Jump up to previous sibling of the current directory.....|NERDTree-C-K|
+"
+" C........Change the tree root to the selected directory.............|NERDTree-C|
+" u........Move the tree root up one directory........................|NERDTree-u|G
+" U........Same as 'u' except the old root node is left open..........|NERDTree-U|
+" r........Recursively refresh the current directory..................|NERDTree-r|
+" R........Recursively refresh the current root.......................|NERDTree-R|
+" m........Display the NERDTree menu..................................|NERDTree-m|
+" cd.......Change the CWD to the directory of the selected node......|NERDTree-cd|
+" CD.......Change tree root to the CWD...............................|NERDTree-CD|
+"
+" I........Toggle whether hidden files displayed......................|NERDTree-I|
+" f........Toggle whether the file filters are used...................|NERDTree-f|
+" F........Toggle whether files are displayed.........................|NERDTree-F|
+" B........Toggle whether the bookmark table is displayed.............|NERDTree-B|
+" L........Toggle whether the number of lines in files is displayed..|NERDTree-FL|
+"
+" q........Close the NERDTree window..................................|NERDTree-q|
+" A........Zoom (maximize/minimize) the NERDTree window...............|NERDTree-A|
+" ?........Toggle the display of the quick help.......................|NERDTree-?|
+"
+" ------------------------------------------------------------------------------
+
+" nnoremap <leader>\\\\ :action ActivateTerminalToolWindow<CR>
+
+" ----------------------- Tabs -----------------------
+" Tab Left
+nnoremap <leader>tl gt
+
+" Tab Right
+nnoremap <leader>th gT
+
+" Tabonly
+nnoremap <leader>to :tabonly<cr>
+
+
+" ----------------------- New File -----------------------
+"  new class
+nnoremap <leader>nc  :action NewClass<cr>
+nnoremap <leader>nf  :action NewFile<cr>
+nnoremap <leader>nm  :action NewModule<cr>
+nnoremap <leader>npr :action NewProject<cr>
+nnoremap <leader>ns  :action NewScratchFile<cr>
+nnoremap <leader>nd  :action NewDir<cr>
+
+
+" ----------------- Global Settings -----------------
+" source ideavim
+nnoremap <leader>uu :source ~/.ideavimrc<cr>
+
+" show global settings
+nnoremap <leader>ps :action ShowSettings<cr>
+
+" turn off vim.. use at own risk
+nnoremap <leader>qq :action VimPluginToggle<cr>
+
+" convert buffer yank to clipboard
+nnoremap <leader>y "+y
+
+"
+" ---------------------- General ---------------------
+" Global Search
+nnoremap <leader>ff :action SearchEverywhere<CR>
+
+" Show Nav bar
+nnoremap <leader>fn :action ShowNavBar
+
+" Open Terminal
+nnoremap <leader>\\ :action ActivateTerminalToolWindow<cr>
+
+" Comment by line
+nnoremap gcc :action CommentByLineComment<cr>
+vnoremap gcc :action CommentByLineComment<cr>
+
+" Hide all Windows
+nnoremap <leader>xx :action HideAllWindows<cr>
+
+
+" -------------------- Tool Windows ------------------
+" Menu Bar
+nnoremap <leader>mm :action MainMenu<CR>
+
+" Run
+nnoremap <leader>wr :action Run<CR>
+
+" Debug
+nnoremap <leader>wrr :action Debug<CR>
+
+" Amazon Q
+nnoremap <leader>oa :action Activateamazon.q.windowToolWindow<cr>
+
+" Sonarcube 
+nnoremap <leader>os :action ActivateSonarQubeforIDEToolWindow<cr>
+
+" Maven Tool
+nnoremap <leader>om :action ActivateMavenToolWindow<cr>
+
+
+" ------------------- Action Bars --------------------
+nnoremap <leader>wt :action Toolbar<CR>
+" nnoremap <leader>ee :action ActivateProjectToolWindow<CR>
+
+
+" ------------------- View Mode ----------------------
+"
+" Zen Mode
+nnoremap <leader>hz :action View.EnterZenMode<CR>
+" split vertical / horizontal
+nnoremap <leader>sv :vsplit<CR>
+nnoremap <leader>sh :split<CR>
+
+" close split (this pane) / keep only this pane
+nnoremap <leader>sx <C-w>c
+nnoremap <leader>so <C-w>o
+
+" unsplit all
+nnoremap <leader>suu :action Unsplit<cr>
+
+" Move to opposite group
+nnoremap <leader>sl :action MoveEditorToOppositeTabGroup<cr>
+nnoremap <leader>sh :action MoveEditorToOppositeTabGroup<cr>
+
+" Toggle javadoc render
+nnoremap <leader>jd :action ToggleRenderedDocPresentation<cR>
+nnoremap <leader>jda :action ToggleRenderedDocPresentationForAll<cR>
+
+
+" ------------------ LSP Commands ------------------
+"  Open Problem Window
+nnoremap <leader>xa :action ActivateProblemsViewToolWindow<cr>
+
+" Context Action 
+nnoremap <leader>ca :action ActivateToolWindowActions<cr>
+
+
+
+" -------------------- Git Tools ------------------
+" open quick action
+nnoremap <leader>og :action Vcs.QuickListPopupAction<cr>
+nnoremap <leader>ogg :action ActivateVersionControlToolWindow<CR>
+nnoremap <leader>gb :action Annotate<cr>

@@ -1,0 +1,2 @@
+[submodule "nvim/.config/nvim"]
+	branch = main
