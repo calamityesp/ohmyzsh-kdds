@@ -22,9 +22,22 @@ set -euo pipefail
 IFS=$'\n\t'
 
 ###################################################
-#  SECTION: ENV CARIABLES
+#  SECTION: ENV VARIABLES
 ##################################################
 export ohmykddsdir="$HOME/.oh-my-kdds/"
+
+# Set system ENV for convience
+export OS="$(uname -s)"
+
+###################################################
+#  SECTION: ENV PATHS
+##################################################
+
+# Set Homebrew Paths (even if not installed yet)
+case "$OS" in
+  Linux*) export PATH="$PATH:/home/linuxbrew/.linuxbrew/bin"  ;;
+esac
+
 
 ##################################################
 #  SECTION: CONSTANTS
@@ -44,7 +57,7 @@ readonly MISSING="$RED \e[D❌$RESET"
 readonly WARN="$YELLOW \e[DWARNING ⚠️$RESET"
 
 # directories
-Additonal_Directories=(
+ADDITONAL_DIRECTORIES=(
     Repos
     Gists
     Scripts
@@ -52,6 +65,18 @@ Additonal_Directories=(
     Obsidian
     Notes
   )
+
+DEPENDENCIES=(
+  stow
+  git
+  obsidian
+  nvim
+)
+
+##################################################
+#  SECTION: GLOBAL VARIABLES
+##################################################
+failed=false
 
 ##################################################
 #  SECTION: LOGGER
@@ -64,13 +89,13 @@ log () {
 ##################################################
 #  SECTION: FUNCTIONS
 ##################################################
-failed=0
 chk_install() {
-	if ! command -v "$1" &>/dev/null; then
+	if ! command -v "$1"; then
 		log $MISSING "1"
-		failed=1
+		failed=true
 	else
 		log $CONFIRMED "$1"
+    failed=false
 	fi
 }
 
@@ -80,23 +105,44 @@ chk_install() {
 #  SECTION: DEPENDENCY CHECK
 ##################################################
 ## Check Homebrew and/or Install
-if ! command -v brew &>/dev/null; then
-  log $ERROR "Brew Not Installed.. Run Brew Installation?"
-
-
-## Check for Stow
-if ! command -v stow &>/dev/null; then
-  log $ERROR "Stow installation not detected.. Install and rerun script"
-  exit 1
+log $INFO "Checking Brew Installation:"
+chk_install "brew"
+if [[ $failed == "true" ]]; then
+  read -p "Homebrew not installed, Run Installation? (Y/n)" response 
+  if [[ "${response,,}" == "y" || -z "$response" ]]; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    chk_install "brew"
+  else
+    echo "Install homebrew then run script again"
+    exit 1
+  fi
 fi
 
-### KDDS REMOVE
-exit
+
+## Check Additional Dependencies, install with homebrew if missing
+for prog in "${DEPENDENCIES[@]}"; do
+  chk_install $prog
+  if [[ $failed == "true" ]]; then
+    brew install $prog
+    chk_install $prog
+
+    # verify installation was successful
+    if [[ $failed == "true" ]]; then
+      printf "/s failed to install. Please install dependency and rerun script" $prog
+      exit 1
+    fi
+  fi
+done
+
 ##################################################
-#  SECTION: Submodule Init
+#  SECTION: OH-MY-KDDS SUBMODULE INIT
 ##################################################
 ## Clone Submodules
 git -C "$ohmykddsdir" submodule update --init --recursive
+
+# KDDS Exit
+echo "Exiting"
+exit 6
 
 ##################################################
 #  SECTION: REMOVING STAGNANT SYMLINKS
