@@ -24,8 +24,6 @@ IFS=$'\n\t'
 ###################################################
 #  SECTION: ENV VARIABLES
 ##################################################
-export ohmykddsdir="$HOME/.oh-my-kdds/"
-
 # Set system ENV for convience
 export OS="$(uname -s)"
 
@@ -42,7 +40,7 @@ esac
 ##################################################
 #  SECTION: CONSTANTS
 ##################################################
-ZSH="$HOME/.oh-my-zsh-kdds"
+export ZSH="$HOME/.oh-my-kdds"
 readonly DOTFILES="$ZSH/Dotfiles"
 readonly GREEN="\e[32m"
 readonly RED="\e[31m"
@@ -135,29 +133,6 @@ for prog in "${DEPENDENCIES[@]}"; do
 done
 
 ##################################################
-#  SECTION: OH-MY-KDDS SUBMODULE INIT
-##################################################
-## Clone Submodules
-git -C "$ohmykddsdir" submodule update --init --recursive
-
-# KDDS Exit
-echo "Exiting"
-exit 6
-
-##################################################
-#  SECTION: REMOVING STAGNANT SYMLINKS
-##################################################
-log $INFO "Removing Any Existing Symbolic Links..."
-
-# removing any existing symbolic links to ZSH
-source $ZSH/custom/tools/update_symlinks.sh
-
-# removing legacy symbolic links (oh-my-kdds) ---- NOT COMPLETED
-log $INFO "Removing Any Legacy Symbolic Links..."
-log $INFO "TODO: write legacy setup script"
-sleep 1
-
-##################################################
 #  SECTION: Checking Existing ZSHRC
 ################################################
 if [[ -f $HOME/.zshrc ]]; then
@@ -179,11 +154,16 @@ select choice in "main" "develop" "work"; do
 done
 log $INFO "$CHOICE profile selected!"
 
+
 ##################################################r
 #  SECTION: CHANGE PROFILE
 ##################################################
 log $INFO "Switching to $CHOICE"
-git $ZSH checkout $CHOICE
+git -C $ZSH checkout $CHOICE
+
+## KDDS Remove
+exit 6
+
 
 ##################################################
 #  SECTION: CLONING SUBMODULES

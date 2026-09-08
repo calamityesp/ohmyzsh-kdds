@@ -1,8 +1,0 @@
-[submodule "Dotfiles"]
-	path = custom/Dotfiles
-	url = https://github.com/calamityesp/Dotfiles.git
-  branch = develop
-[submodule "Obsidian"]
-	path = custom/Obsidian
-	url = git@github.com:calamityesp/obsidian.git
-  branch = develop
