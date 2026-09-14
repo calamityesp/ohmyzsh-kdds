@@ -18,7 +18,7 @@
 ##################################################
 #  SECTION: Source Functions
 ##################################################
-export PATH="$PATH:$(PWD)/functions"
+export PATH="$PATH:$(pwd)/functions"
 
 #****************************************************************************************************
 #                                               Aliases
@@ -34,11 +34,11 @@ TOOLS="$ZSH/custom/tools/"
 ##################################################
 #  SECTION: Directory Aliases
 ##################################################
-alias dotfiles="$ZSH/Dotfiles"
-alias scripts="$ZSH/Scripts"
-alias repos="$ZSH/Repos"
-alias custom="$ZSH/custom"
-alias plugins="$ZSH/plugins"
+alias dotfiles="$HOME/Dotfiles"
+alias scripts="$HOME/Scripts"
+alias repos="$HOME/Repos"
+alias custom="$HOME/custom"
+alias plugins="$HOME/plugins"
 alias cdzsh="cd $ZSH"
 
 # Oh-My-KDDS

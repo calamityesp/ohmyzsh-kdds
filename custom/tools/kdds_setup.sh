@@ -41,7 +41,7 @@ esac
 #  SECTION: CONSTANTS
 ##################################################
 export ZSH="$HOME/.oh-my-kdds"
-readonly DOTFILES="$ZSH/Dotfiles"
+readonly DOTFILES="$HOME/Dotfiles"
 readonly GREEN="\e[32m"
 readonly RED="\e[31m"
 readonly RESET="\e[0m"
@@ -71,10 +71,12 @@ DEPENDENCIES=(
   nvim
 )
 
+
 ##################################################
 #  SECTION: GLOBAL VARIABLES
 ##################################################
 failed=false
+profile="main"
 
 ##################################################
 #  SECTION: LOGGER
@@ -143,60 +145,45 @@ fi
 ##################################################
 #  SECTION: SELECT PROFILE
 ################################################
-log $INFO "Select a profile:"
+log $INFO "Select a profile (By Number):"
 select choice in "main" "develop" "work"; do
   case $REPLY in
     1|2|3)
-      CHOICE="$choice"
+      profile="$choice"
       break ;;
     *) log $ERROR "Invalid choice. Pick 1, 2, or 3." ;;
   esac
 done
-log $INFO "$CHOICE profile selected!"
+log $INFO "$profile profile selected!"
 
 
 ##################################################r
-#  SECTION: CHANGE PROFILE
+#  SECTION: CHANGE OH-MY-KDDS PROFILE
 ##################################################
-log $INFO "Switching to $CHOICE"
-git -C $ZSH checkout $CHOICE
-
-## KDDS Remove
-exit 6
+log $INFO "Switching to $profile"
+git -C $ZSH checkout $profile
 
 
 ##################################################
-#  SECTION: CLONING SUBMODULES
+#  SECTION: CLONING - SETUP DOTFILES
 ################################################
-log $INFO "Initializing All Levals Submodules"
-git -C "$ZSH/" submodule update --init --recursive
-git -C "$ZSH/" submodule update --remote
-# git -C "$ZSH/Dotfiles" submodule update --init --recursive
-git -C "$ZSH/Dotfiles" submodule update --remote
+log $INFO "Cloning Dotfiles to Home Directory...."
+git -C $HOME clone git@github.com:calamityesp/Dotfiles.git -b $choice || true
+git -C $DOTFILES submodule update --init --recursive
 
-##################################################r
-#  SECTION: RUN DOTFILES STOW
-##################################################
-# Remove any symbolic links in .config
-for dir in "$HOME/.config/"*;do
-  base=$(basename $dir)
-  match=$(find "$ZSH/Dotfiles" -type d -name "$base" -prune)
-  if [[ -n "$match" ]]; then
-    mv $dir $dir.backup
-  fi
+# Setup symbolic Links
+for dir in "$HOME/Dotfiles/"*; do
+  base=$(basename "$dir")
+  # stow -n -v -d "$DOTFILES" -t ~ $base (for testing)
+  stow -d "$DOTFILES" -t ~ $base
 done
 
-for dir in $ZSH/Dotfiles/*; do
-  base=$(basename $dir)
-  stow -d $HOME/.oh-my-zsh-kdds/Dotfiles -t ~ $base
-done
 
 ##################################################r
-#  SECTION: Setting Up Additional Directories
+#  SECTION: SETUP KDDS DIRECTORIES
 ##################################################
 log $INFO "Setting up Additional Directories"
-for dir in ${Additonal_Directories[@]}; do
-  mkdir -p $ZSH/$dir
+for dir in ${ADDITONAL_DIRECTORIES[@]}; do
   if [[ -d "$HOME/$dir" && ! -L "$HOME/$dir" ]]; then
     log $WARN "Dir $dir exists! Moving to .old"
     mv $HOME/$dir $HOME/$dir.old
@@ -205,14 +192,15 @@ for dir in ${Additonal_Directories[@]}; do
       rm $HOME/$dir
     fi
   fi
-  ln -sf $ZSH/$dir ~/$dir
-  log $INFO "Symbolic Link Created: $dir"
+  mkdir -p $HOME/$dir
 done
+
+## KDDS Remove
+exit 6
 
 ##################################################r
 #  SECTION: FINISH AND LAUNCH ZSH
 ##################################################
 log $INFO "Finished Setting up Oh-My-Zsh-KDDS"
-chmod +x $ZSH/oh-my-zsh.sh
-exec zsh
+exec zsh -l
 
