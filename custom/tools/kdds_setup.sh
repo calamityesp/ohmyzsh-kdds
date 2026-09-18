@@ -21,11 +21,13 @@ set -euo pipefail
 # Internal field seperator
 IFS=$'\n\t'
 
+
 ###################################################
 #  SECTION: ENV VARIABLES
 ##################################################
 # Set system ENV for convience
 export OS="$(uname -s)"
+
 
 ###################################################
 #  SECTION: ENV PATHS
@@ -42,6 +44,7 @@ esac
 ##################################################
 export ZSH="$HOME/.oh-my-kdds"
 readonly DOTFILES="$HOME/Dotfiles"
+readonly OBSIDIAN="$HOME/Obsidian"
 readonly GREEN="\e[32m"
 readonly RED="\e[31m"
 readonly RESET="\e[0m"
@@ -58,9 +61,8 @@ readonly WARN="$YELLOW \e[DWARNING ⚠️$RESET"
 ADDITONAL_DIRECTORIES=(
     Repos
     Gists
-    Scripts
+    Script
     Projects
-    Obsidian
     Notes
   )
 
@@ -69,6 +71,8 @@ DEPENDENCIES=(
   git
   obsidian
   nvim
+  tree-sitter
+  pdflatex
 )
 
 
@@ -78,6 +82,7 @@ DEPENDENCIES=(
 failed=false
 profile="main"
 
+
 ##################################################
 #  SECTION: LOGGER
 ##################################################
@@ -85,6 +90,7 @@ log () {
 	level=$1
 	printf "[%b]: %s\n" "$1" "$2" 
 }
+
 
 ##################################################
 #  SECTION: FUNCTIONS
@@ -98,7 +104,6 @@ chk_install() {
     failed=false
 	fi
 }
-
 
 
 ##################################################
@@ -134,17 +139,19 @@ for prog in "${DEPENDENCIES[@]}"; do
   fi
 done
 
+
 ##################################################
 #  SECTION: Checking Existing ZSHRC
-################################################
+##################################################
 if [[ -f $HOME/.zshrc ]]; then
   log $INFO ".zshrc exists! removing"
   rm ~/.zshrc
 fi
 
+
 ##################################################
 #  SECTION: SELECT PROFILE
-################################################
+##################################################
 log $INFO "Select a profile (By Number):"
 select choice in "main" "develop" "work"; do
   case $REPLY in
@@ -157,7 +164,7 @@ done
 log $INFO "$profile profile selected!"
 
 
-##################################################r
+##################################################
 #  SECTION: CHANGE OH-MY-KDDS PROFILE
 ##################################################
 log $INFO "Switching to $profile"
@@ -168,8 +175,10 @@ git -C $ZSH checkout $profile
 #  SECTION: CLONING - SETUP DOTFILES
 ################################################
 log $INFO "Cloning Dotfiles to Home Directory...."
-git -C $HOME clone git@github.com:calamityesp/Dotfiles.git -b $choice || true
-git -C $DOTFILES submodule update --init --recursive
+git clone git@github.com:calamityesp/Dotfiles.git -b "$choice" "$DOTFILES" || true
+cd $DOTFILES
+git submodule update --init --recursive
+cd -
 
 # Setup symbolic Links
 for dir in "$HOME/Dotfiles/"*; do
@@ -178,15 +187,69 @@ for dir in "$HOME/Dotfiles/"*; do
   stow -d "$DOTFILES" -t ~ $base
 done
 
+# Update the submodules to the correct branch
+git -C $DOTFILES submodule update --init --remote --rebase --recursive
 
-##################################################r
+
+##################################################
+#  SECTION: CLONING - SETUP TMUX PLUGINS
+##################################################
+# Install tpm and tmux-power
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm || true
+git clone git@github.com:wfxr/tmux-power.git ~/.tmux/plugins/tmux-power || true
+
+
+##################################################
+#  SECTION: NVIM SETUP
+##################################################
+# Install luarocks
+brew install luarocks
+if [[ "$?" != 0 ]]; then
+  printf "Please install luarocks, and restart script\n"
+  exit 1
+fi
+
+## texlive installation  ---> texlive-binextra, texlive-latexextra
+
+## Install mermaid support
+sudo -k npm install -g @mermaid-js/mermaid-cli
+
+## Installing FD
+brew install fd
+
+##################################################
+#  SECTION: OBSIDIAN SETUP
+##################################################
+if [[ -d "$OBSIDIAN" ]]; then
+  cd $OBSIDIAN
+  log $INFO "Commiting if there is a git file"
+  sleep 2
+  if [[ -d "./git" ]]; then
+    git add . || true
+    git commit -m "Pushing all existing changes before removal" || true
+    git push || true
+  fi
+
+  log $INFO "Removing Obsidian Files"
+  sleep 2
+  cd -
+  rm -rf "$OBSIDIAN"
+
+  log $INFO "Cloning Obsidian"
+  sleep 2
+  git clone git@github.com:calamityesp/obsidian.git "$OBSIDIAN"
+  git -C "$OBSIDIAN" checkout "$profile" || git -C "$OBSIDIAN" checkout -b "$profile" origin/"$profile" || log $ERROR "Failed checkout $profile"
+fi
+
+
+##################################################
 #  SECTION: SETUP KDDS DIRECTORIES
 ##################################################
 log $INFO "Setting up Additional Directories"
 for dir in ${ADDITONAL_DIRECTORIES[@]}; do
   if [[ -d "$HOME/$dir" && ! -L "$HOME/$dir" ]]; then
-    log $WARN "Dir $dir exists! Moving to .old"
-    mv $HOME/$dir $HOME/$dir.old
+    log $WARN "Dir $dir exists!"
+    continue
   else
     if [[ -L $HOME/$dir ]]; then
       rm $HOME/$dir
@@ -197,6 +260,7 @@ done
 
 ## KDDS Remove
 exit 6
+
 
 ##################################################r
 #  SECTION: FINISH AND LAUNCH ZSH
