@@ -14,14 +14,18 @@
 #  SECTION: Helpers
 ##################################################
 _asdf_java_update () {
-  # Run the homebrew asdf script sets command higher in path
-  if command -v asdf &>/dev/null; then
+  if [[ -x $(brew --prefix)/opt/asdf/libexec/asdf.sh ]]; then
+    # Run the homebrew asdf script sets command higher in path
     source $(brew --prefix)/opt/asdf/libexec/asdf.sh
+
+    # Set Java Home if we are using the older asdf brew version
+    if commmand asdf which java &>/dev/null; then
+      export JAVA_HOME="$(command asdf where java)"
+      echo "UPDATE: JAVA_HOME=$JAVA_HOME"
+    fi
   fi
 
-  export JAVA_HOME="$(command asdf where java)"
-  echo "JAVA_HOME updated!! "
-}
+ }
 
 ##################################################
 #  SECTION: Main

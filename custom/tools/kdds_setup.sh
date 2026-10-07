@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+
 ####################################################
 # Script: setup-oh-my-zsh-kdds.sh
 #
@@ -43,6 +43,8 @@ esac
 #  SECTION: CONSTANTS
 ##################################################
 export ZSH="$HOME/.oh-my-kdds"
+readonly FONTS_DIR="/usr/share/fonts/TTF"
+readonly NERD_FONT_NAME=""
 readonly DOTFILES="$HOME/Dotfiles"
 readonly OBSIDIAN="$HOME/Obsidian"
 readonly GREEN="\e[32m"
@@ -73,6 +75,7 @@ DEPENDENCIES=(
   nvim
   tree-sitter
   pdflatex
+  asdf
 )
 
 
@@ -241,6 +244,41 @@ if [[ -d "$OBSIDIAN" ]]; then
   git -C "$OBSIDIAN" checkout "$profile" || git -C "$OBSIDIAN" checkout -b "$profile" origin/"$profile" || log $ERROR "Failed checkout $profile"
 fi
 
+##################################################
+#  SECTION: CHECK - INSTALL ASDF
+##################################################
+chk_install "asdf"
+if [[ "$failed" == "true" ]]; then
+  brew install "asdf"
+  chk_install "asdf"
+  if [[ "$failed" == "true" ]]; then
+    log $ERROR "asdf installation failed"
+  fi
+fi
+
+############################################################################################################################################################
+############################################################## Linux File System Changes ###################################################################
+############################################################################################################################################################
+
+##################################################
+#  SECTION: NERD FONT INSTALLED
+##################################################
+log $INFO "Checking FiraCode Install"
+if [[ ! -f /usr/share/fonts/TTF/FiraCodeNerdFont*.ttf ]]; then
+  log $INFO "Downloading FiraCode..."
+  curl -LO --output-dir ~/Downloads/ https://github.com/ryanoasis/nerd-fonts/releases/download/v3.5.1/FiraCode.zip
+  sudo -k unzip ~/Downloads/FiraCode.zip -d /usr/share/fonts/TTF && log $CONFIRMED "FiraCode: Installed" || log $ERROR "Failed to Download and Install Nerd Fonts"
+fi
+
+
+##################################################
+#  SECTION: KIRO SETUP
+##################################################
+chk_install "kiro-cli"
+if [[ "$failed" == "true" ]]; then
+  curl -fsSL https://cli.kiro.dev/install | bash
+  chk_install "kiro-cli"
+fi
 
 ##################################################
 #  SECTION: SETUP KDDS DIRECTORIES
@@ -257,9 +295,6 @@ for dir in ${ADDITONAL_DIRECTORIES[@]}; do
   fi
   mkdir -p $HOME/$dir
 done
-
-## KDDS Remove
-exit 6
 
 
 ##################################################r
